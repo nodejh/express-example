@@ -28,3 +28,7 @@ benchmarks/graphs
 
 # IDEA
 .idea
+
+
+#bower
+bower_components

@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf8">
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>
-      <a href="/register">REGISTER</a>
-    </p>
-  </body>
-</html>
+<% include _head.ejs %>
+<% include _header.ejs %>
+
+<h1>This is home page.</h1>
+
+<a href="#" class="btn btn-primary btn-lg active" role="button">Primary link</a>
+<a href="#" class="btn btn-default btn-lg active" role="button">Link</a>
+
+<% include _scripts.ejs %>
+<% include _foot.ejs %>

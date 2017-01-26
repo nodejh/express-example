@@ -1,5 +1,7 @@
 const config = {
   port: 3000,
+  secretCipher: 'abcdefg',
+  secretSession: 'abcdefg',
   db: {
     host: 'localhost',
     user: 'root',

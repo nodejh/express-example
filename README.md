@@ -60,3 +60,6 @@ db: {
 $ npm install
 $ npm start
 ```
+
+
+## BootStrap
