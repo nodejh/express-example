@@ -14,43 +14,6 @@ router.get('/', (req, res) => {
 });
 
 
-router.get('/register', (req, res) => {
-  res.render('register', {
-    title: 'REGISTER',
-  });
-});
-
-
-router.post('/register', (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  req.getConnection((errConn, connection) => {
-    if (errConn) {
-      console.error('connection error: ', errConn);
-      return next(errConn);
-    }
-
-    const sql = 'insert into user set ?';
-    const data = {
-      username,
-      password,
-      register_time: new Date().getTime(),
-    };
-
-    connection.query(sql, [data], (errQuery, result) => {
-      if (errQuery) {
-        console.error('query error: ', errConn);
-        return next(errQuery);
-      }
-      res.render('success', {
-        title: 'REGISTER SUCCESS',
-        insertId: result.insertId,
-      });
-    });
-  });
-});
-
-
 router.get('/login', (req, res) => {
   res.render('login', {
     title: 'LOGIN',
@@ -106,6 +69,51 @@ router.post('/login', (req, res) => {
       return res.json({
         code: 0,
         message: 'login success',
+      });
+    });
+  });
+});
+
+
+router.get('/register', (req, res) => {
+  res.render('register', {
+    title: 'REGISTER',
+  });
+});
+
+
+router.post('/register', (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  req.getConnection((errConn, connection) => {
+    if (errConn) {
+      console.error('connection error: ', errConn);
+      return res.json({
+        code: 1006,
+        message: 'connect database error',
+      });
+    }
+
+    const sql = 'insert into user set ?';
+    const data = {
+      username,
+      password,
+      register_time: new Date().getTime(),
+    };
+
+    connection.query(sql, [data], (errQuery, result) => {
+      if (errQuery) {
+        console.error('query error: ', errConn);
+        return res.json({
+          code: 1007,
+          message: 'insert userinfo to database error',
+        });
+      }
+      console.log('result: ', result);
+      return res.json({
+        code: 0,
+        message: 'register success',
+        userId: result.insertId,
       });
     });
   });
