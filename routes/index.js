@@ -99,13 +99,13 @@ router.post('/register', (req, res) => {
     const sql = 'insert into user set ?';
     const data = {
       username,
-      password,
+      password: cipher.cipher(password),
       register_time: new Date().getTime(),
     };
 
     connection.query(sql, [data], (errQuery, result) => {
       if (errQuery) {
-        console.error('query error: ', errConn);
+        console.error('query error: ', errQuery);
         return res.json({
           code: 1007,
           message: 'insert userinfo to database error',
@@ -124,8 +124,10 @@ router.post('/register', (req, res) => {
 
 // 成功信息页面
 router.get('/success', (req, res) => {
+  const message = decodeURI(req.query.message);
   res.render('success', {
     title: 'success',
+    message,
   });
 });
 

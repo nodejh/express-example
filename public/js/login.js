@@ -1,6 +1,6 @@
 (function($) {
 
-  $('#register')
+  $('#login')
     .on('click', function() {
       var username = $('#username').val();
       if (!username) {
@@ -14,9 +14,9 @@
         username: username,
         password: password,
       };
-      $.post('/register', data, function(res) {
+      $.post('/login', data, function(res) {
         if (res.code === 0) {
-          window.location.href = '/success?message=' + encodeURI('注册成功');
+          window.location.href = '/success?message=' + encodeURI('登录成功');
         } else {
           swal(res.message, '', 'error');
         }

@@ -13,7 +13,8 @@ const cipher = (text, keys) => {
   const cryptoCipher = crypto.createCipher('aes192', secret);
   let encrypted = cryptoCipher.update(text, 'utf8', 'hex');
   encrypted += cryptoCipher.final('hex');
-  console.log(encrypted);
+  // console.log(encrypted);
+  return encrypted;
 };
 
 
@@ -28,7 +29,8 @@ const decipher = (text, keys) => {
   const cryptoDecipher = crypto.createDecipher('aes192', secret);
   let decrypted = cryptoDecipher.update(text, 'hex', 'utf8');
   decrypted += cryptoDecipher.final('utf8');
-  console.log(decrypted);
+  // console.log(decrypted);
+  return decrypted;
 };
 
 
