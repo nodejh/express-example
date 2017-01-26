@@ -3,10 +3,8 @@ const cipher = require('./../helper/cipher');
 
 const router = express.Router();
 
-/**
- * GET home page.
- * @type {String}
- */
+
+// 首页
 router.get('/', (req, res) => {
   res.render('index', {
     title: 'Home Page',
@@ -14,6 +12,7 @@ router.get('/', (req, res) => {
 });
 
 
+// 登录页面
 router.get('/login', (req, res) => {
   res.render('login', {
     title: 'LOGIN',
@@ -21,6 +20,7 @@ router.get('/login', (req, res) => {
 });
 
 
+// 登录操作
 router.post('/login', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -75,6 +75,7 @@ router.post('/login', (req, res) => {
 });
 
 
+// 注册页面
 router.get('/register', (req, res) => {
   res.render('register', {
     title: 'REGISTER',
@@ -82,6 +83,7 @@ router.get('/register', (req, res) => {
 });
 
 
+// 注册操作
 router.post('/register', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -120,6 +122,7 @@ router.post('/register', (req, res) => {
 });
 
 
+// 成功信息页面
 router.get('/success', (req, res) => {
   res.render('success', {
     title: 'success',
