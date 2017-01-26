@@ -120,4 +120,11 @@ router.post('/register', (req, res) => {
 });
 
 
+router.get('/success', (req, res) => {
+  res.render('success', {
+    title: 'success',
+  });
+});
+
+
 module.exports = router;
