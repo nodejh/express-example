@@ -63,3 +63,18 @@ $ npm start
 
 
 ## BootStrap
+
+
+
+## session
+
+使用 session 主要有两步：
+
++ 初始化 session，详见 `app.js` 第 9 行、第 27 行和第 46 行
++ 使用 session，详见 `routes/index.js` 第 117 行
+
+session 主要用到了 [express-session](https://github.com/expressjs/session) 这个包。
+
++ [英文文档](https://github.com/expressjs/session)
++ [中文文档](https://www.xgllseo.com/?p=5162)
++ [关于 session 和 cookie 的讲解](https://github.com/alsotang/node-lessons/tree/master/lesson16)

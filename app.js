@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const myConnection = require('express-myconnection');
+const session = require('express-session');
 const config = require('./config/config');
 const routes = require('./routes/index');
 const users = require('./routes/users');
@@ -19,6 +20,18 @@ const dbOptions = {
   database: config.db.database,
 };
 
+/**
+ * 使用内存保存 session
+ * @type {Object}
+ */
+const sessionOption = {
+  secret: 'abcdefg',
+  // cookie: { maxAge: 60000 },
+  name: 'express.sid',
+  resave: false,
+  saveUninitialized: true,
+};
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -30,6 +43,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(myConnection(mysql, dbOptions, 'single'));
+app.use(session(sessionOption));
 
 app.use('/', routes);
 app.use('/users', users);

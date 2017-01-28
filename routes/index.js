@@ -6,6 +6,8 @@ const router = express.Router();
 
 // 首页
 router.get('/', (req, res) => {
+  console.log('req.session: ', req.session);
+  console.log('req.cookies: ', req.cookies);
   res.render('index', {
     title: 'Home Page',
   });
@@ -112,6 +114,33 @@ router.post('/register', (req, res) => {
         });
       }
       console.log('result: ', result);
+      // 将数据存入 session
+      // 直接对 session 赋值就可以啦
+      req.session.user = data;
+      req.session.user.insertId = result.insertId;
+      console.log('req.session: ', req.session);
+      /**
+      * 下面就是 req.session 的值
+      * req.session:  Session {
+      * cookie:   // req.session.cookie 是 session 初始化之后就具有的对象
+      *  { path: '/',
+      *    _expires: null,
+      *    originalMaxAge: null,
+      *    httpOnly: true },
+      * user:   // req.session.user 是第 120 行我们给 req.session 对象赋的值
+      *  { username: '12123123123123',
+      *    password: 'f84d890a78b927031594dc7cf4a467b7',
+      *    register_time: 1485532973072,
+      *    insertId: 10 } }
+      */
+      // 当第 119 行和第 120 行执行结束后，只要是相同客户端（浏览器）发送过来的请求
+      // req.session 对象就完全一样
+      // 比如我们这里的逻辑是先注册，注册成功之后设置一个 session:  req.session.user（1)
+      // 接下来，访问任何一个路由，req.session.user 的值都会和 (1) 的值完全一样
+      // 这样就达到了保存用户登录状态的目的（注册成功之后，默认就是已登录状态了）
+      // 因为登录成功（注册成功）后，req.session.user 是有值的
+      // 所以每次我们只需要判断一下 req.session.user 是否有值，就能知道用户是否登录了
+      // 见第 157 行
       return res.json({
         code: 0,
         message: 'register success',
@@ -124,6 +153,14 @@ router.post('/register', (req, res) => {
 
 // 成功信息页面
 router.get('/success', (req, res) => {
+  console.log('req.session: ', req.session);
+  if (req.session.user) {
+    // req.session.user 存在，说明用户已经登录（或者注册成功。登录成功或注册成功后，都是已登录状态）
+    // 接下来就可以取出该登录用户的用户信息，即 req.session.user 的值
+  } else {
+    // req.session.user 不存在，说明用户没有登录
+    // 接下来就可以执行一些处理未登录的逻辑。比如用户跳转到登录页面
+  }
   const message = decodeURI(req.query.message);
   res.render('success', {
     title: 'success',
