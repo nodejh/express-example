@@ -26,7 +26,7 @@ const dbOptions = {
  */
 const sessionOption = {
   secret: 'abcdefg',
-  // cookie: { maxAge: 60000 },
+  cookie: { maxAge: 60000 },
   name: 'express.sid',
   resave: false,
   saveUninitialized: true,
