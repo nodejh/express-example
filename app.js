@@ -6,11 +6,14 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const myConnection = require('express-myconnection');
+const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const config = require('./config/config');
 const routes = require('./routes/index');
 const users = require('./routes/users');
 
+mongoose.connect(config.mongodb);
 const app = express();
 const dbOptions = {
   host: config.db.host,
@@ -26,10 +29,11 @@ const dbOptions = {
  */
 const sessionOption = {
   secret: 'abcdefg',
-  cookie: { maxAge: 60000 },
+  cookie: { maxAge: 60000 * 60 * 24 * 30 },
   name: 'express.sid',
   resave: false,
   saveUninitialized: true,
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
 };
 
 // view engine setup

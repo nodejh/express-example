@@ -47,7 +47,7 @@ router.post('/login', (req, res) => {
       });
     }
 
-    const sql = 'SELECT password FROM user WHERE username=?';
+    const sql = 'SELECT * FROM user WHERE username=?';
     connection.query(sql, [username], (errQuery, users) => {
       if (errQuery) {
         return res.json({
@@ -68,6 +68,7 @@ router.post('/login', (req, res) => {
           message: 'password error',
         });
       }
+      req.session.user = users[0];
       return res.json({
         code: 0,
         message: 'login success',
@@ -154,14 +155,17 @@ router.post('/register', (req, res) => {
 // 成功信息页面
 router.get('/success', (req, res) => {
   console.log('req.session: ', req.session);
+  let message = '';
   if (req.session.user) {
     // req.session.user 存在，说明用户已经登录（或者注册成功。登录成功或注册成功后，都是已登录状态）
     // 接下来就可以取出该登录用户的用户信息，即 req.session.user 的值
+    message = '用户已经登录';
   } else {
     // req.session.user 不存在，说明用户没有登录
     // 接下来就可以执行一些处理未登录的逻辑。比如用户跳转到登录页面
+    message = '用户未登录';
   }
-  const message = decodeURI(req.query.message);
+  // const message = decodeURI(req.query.message);
   res.render('success', {
     title: 'success',
     message,
