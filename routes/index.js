@@ -5,11 +5,36 @@ const router = express.Router();
 
 
 // 首页
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   console.log('req.session: ', req.session);
   console.log('req.cookies: ', req.cookies);
-  res.render('index', {
-    title: 'Home Page',
+  req.getConnection((errConn, connection) => {
+    const sql1 = 'select * from user where uid in (?,?,?)';
+    connection.query(sql1, [1, 2, 3], (errQuery1, result1) => {
+      if (errQuery1) {
+        return next(errQuery1);
+      }
+
+      const sql2 = 'select * from user where uid=? OR uid=?';
+      connection.query(sql2, [5, 7], (errQuery2, result2) => {
+        if (errQuery2) {
+          return next(errQuery2);
+        }
+
+        const sql3 = 'select * from user where uid=?';
+        connection.query(sql3, [3], (errQuery3, result3) => {
+          if (errQuery3) {
+            return next(errQuery3);
+          }
+          console.log('result: ', result3);
+          const result = [result1, result2, result3];
+          res.render('index', {
+            title: 'Home Page',
+            list: result,
+          });
+        });
+      });
+    });
   });
 });
 

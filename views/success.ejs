@@ -7,5 +7,14 @@
 <a href="/register" class="btn btn-primary" role="button">REGISTER</a>
 <a href="/login" class="btn btn-primary" role="button">LOGIN</a>
 
+<script type="text/javascript">
+  var message = '<%= message %>';
+  if (message) {
+    alert(message);
+  } else {
+    alert('保存失败');
+  }
+</script>
+
 <% include _scripts.ejs %>
 <% include _foot.ejs %>
