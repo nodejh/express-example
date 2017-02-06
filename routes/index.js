@@ -142,7 +142,7 @@ router.post('/register', (req, res) => {
       console.log('result: ', result);
       // 将数据存入 session
       req.session.user = data;
-      req.session.user.insertId = result.insertId;
+      req.session.user.uid = result.insertId;
       console.log('req.session: ', req.session);
       return res.json({
         code: 0,
@@ -159,9 +159,10 @@ router.get('/success', (req, res) => {
   console.log('req.session: ', req.session);
   let message = '';
   if (req.session.user) {
+    const userId = req.session.user.uid;
     // req.session.user 存在，说明用户已经登录（或者注册成功。登录成功或注册成功后，都是已登录状态）
     // 接下来就可以取出该登录用户的用户信息，即 req.session.user 的值
-    message = '用户已经登录';
+    message = `用户已经登录, 用户ID: ${userId}`;
   } else {
     // req.session.user 不存在，说明用户没有登录
     // 接下来就可以执行一些处理未登录的逻辑。比如用户跳转到登录页面
