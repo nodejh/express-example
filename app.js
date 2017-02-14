@@ -24,7 +24,7 @@ const dbOptions = {
 };
 
 /**
- * 使用内存保存 session
+ * 使用 mongodb 保存 session
  * @type {Object}
  */
 const sessionOption = {
